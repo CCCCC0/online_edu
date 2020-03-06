@@ -70,7 +70,7 @@ public class EduTeacherController {
         }
     }
 
-    @PostMapping
+    @PostMapping("save")
     public RetVal insertTeacher(@RequestBody EduTeacher eduTeacher){
 
         boolean flag = eduTeacherService.save(eduTeacher);
@@ -87,5 +87,14 @@ public class EduTeacherController {
         return RetVal.success().data("teacher",teacher);
     }
 
+    @PostMapping("update")
+    public RetVal updateTeacher(@RequestBody EduTeacher eduTeacher) {
+        boolean flag = eduTeacherService.updateById(eduTeacher);
+        if (flag) {
+            return RetVal.success();
+        }else{
+            return RetVal.error();
+        }
+    }
 }
 

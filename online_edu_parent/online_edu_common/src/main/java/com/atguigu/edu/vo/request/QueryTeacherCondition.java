@@ -3,8 +3,6 @@ package com.atguigu.edu.vo.request;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
 public class QueryTeacherCondition {
 
