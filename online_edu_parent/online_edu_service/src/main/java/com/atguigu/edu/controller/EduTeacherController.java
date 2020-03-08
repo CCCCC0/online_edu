@@ -21,6 +21,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/edu-teacher")
+@CrossOrigin
 public class EduTeacherController {
 
     @Autowired
@@ -53,21 +54,21 @@ public class EduTeacherController {
         return RetVal.success().data("teacherList",teachers).data("total",total);
     }
 
-    @GetMapping("queryPageTeacherByCondition/{pageNum}/{pageSize}")
+    @PostMapping("queryPageTeacherByCondition/{pageNum}/{pageSize}")
     public RetVal getPageByCondition(
             @PathVariable long pageNum,
             @PathVariable long pageSize,
             QueryTeacherCondition queryTeacherCondition
     ){
-        if(queryTeacherCondition != null) {
+        //如果页面没有传递参数
+        if(queryTeacherCondition==null){
+            queryTeacherCondition=new QueryTeacherCondition();
+        }
             Page<EduTeacher> eduTeacherPage = new Page<>(pageNum, pageSize);
             eduTeacherService.pageByCondition(eduTeacherPage, queryTeacherCondition);
             List<EduTeacher> teachers = eduTeacherPage.getRecords();
             long total = eduTeacherPage.getTotal();
             return RetVal.success().data("total",total).data("teachers",teachers);
-        }else{
-            return RetVal.error();
-        }
     }
 
     @PostMapping("save")

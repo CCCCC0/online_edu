@@ -39,7 +39,7 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
         if(StringUtils.isNotBlank(name)){
             wrapper.like("name",name);
         }
-        if(level != 0){
+        if(level != null){
             wrapper.eq("level",level);
         }
         if(StringUtils.isNotBlank(gmtCreate)){
