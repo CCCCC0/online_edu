@@ -20,7 +20,7 @@ import java.util.List;
  * 用到的技术 - rest风格  swagger(生成API文档)  mybatis_plus
  */
 @RestController
-@RequestMapping("/edu-teacher")
+@RequestMapping("/edu")
 @CrossOrigin
 public class EduTeacherController {
 
@@ -72,7 +72,7 @@ public class EduTeacherController {
     }
 
     @PostMapping("save")
-    public RetVal insertTeacher(@RequestBody EduTeacher eduTeacher){
+    public RetVal insertTeacher(EduTeacher eduTeacher){
 
         boolean flag = eduTeacherService.save(eduTeacher);
         if(flag){
@@ -83,13 +83,13 @@ public class EduTeacherController {
     }
 
     @GetMapping("{id}")
-    public RetVal getTeacherById(String id){
+    public RetVal getTeacherById(@PathVariable String id){
         EduTeacher teacher = eduTeacherService.getById(id);
         return RetVal.success().data("teacher",teacher);
     }
 
     @PostMapping("update")
-    public RetVal updateTeacher(@RequestBody EduTeacher eduTeacher) {
+    public RetVal updateTeacher(EduTeacher eduTeacher) {
         boolean flag = eduTeacherService.updateById(eduTeacher);
         if (flag) {
             return RetVal.success();
