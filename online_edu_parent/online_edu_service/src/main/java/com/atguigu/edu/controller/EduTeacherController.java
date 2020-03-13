@@ -27,7 +27,7 @@ public class EduTeacherController {
     @Autowired
     private EduTeacherService eduTeacherService;
 
-    @GetMapping
+    @GetMapping("get/allTeacher")
     public RetVal getAllTeacher(){
         List<EduTeacher> eduTeachers = eduTeacherService.list(null);
         RetVal data = RetVal.success().data("teacherList", eduTeachers);
