@@ -1,7 +1,10 @@
 package com.atguigu.edu.service;
 
 import com.atguigu.edu.entity.EduChapter;
+import com.atguigu.edu.vo.response.ChapterVo;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface EduChapterService extends IService<EduChapter> {
 
+    List<ChapterVo> getAllChapterByCourseId(String courseId);
+
+    boolean insertChapterToDB(EduChapter eduChapter);
+
+    boolean updateChapterToDB(EduChapter eduChapter);
+
+    ChapterVo getChapterById(String id);
 }

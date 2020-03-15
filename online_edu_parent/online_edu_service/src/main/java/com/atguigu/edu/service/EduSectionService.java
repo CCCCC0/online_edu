@@ -1,6 +1,7 @@
 package com.atguigu.edu.service;
 
 import com.atguigu.edu.entity.EduSection;
+import com.atguigu.edu.vo.response.SectionVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -13,4 +14,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface EduSectionService extends IService<EduSection> {
 
+    boolean addEduSection(EduSection eduSection);
+
+    SectionVo getSectionVOById(String id);
+
+    boolean updateEduSection(SectionVo sectionVo);
 }
