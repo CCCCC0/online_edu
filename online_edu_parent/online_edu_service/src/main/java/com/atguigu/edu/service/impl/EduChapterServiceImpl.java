@@ -2,11 +2,10 @@ package com.atguigu.edu.service.impl;
 
 import com.atguigu.edu.entity.EduChapter;
 import com.atguigu.edu.entity.EduSection;
-import com.atguigu.edu.handler.exceptions.EduException;
 import com.atguigu.edu.mapper.EduChapterMapper;
 import com.atguigu.edu.mapper.EduSectionMapper;
 import com.atguigu.edu.service.EduChapterService;
-import com.atguigu.edu.service.EduSectionService;
+import com.atguigu.edu.service.EduVideoService;
 import com.atguigu.edu.vo.response.ChapterVo;
 import com.atguigu.edu.vo.response.SectionVo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -36,6 +35,9 @@ public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChap
 
     @Autowired
     private EduSectionMapper eduSectionMapper;
+
+    @Autowired
+    private EduVideoService eduVideoService;
 
     @Override
     public List<ChapterVo> getAllChapterByCourseId(String courseId) {
@@ -100,6 +102,30 @@ public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChap
             BeanUtils.copyProperties(eduChapter,chapterVo);
         }
         return chapterVo;
+    }
+
+    @Override
+    public boolean deleteChapterById(String id) {
+        //删除章节时 - 需要删除所有的小节 小节中所有的视频
+        if(StringUtils.isNotBlank(id)) {
+            eduChapterMapper.deleteById(id);
+            QueryWrapper<EduSection> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("chapter_id",id);
+            List<EduSection> sections = eduSectionMapper.selectList(queryWrapper);
+            if(sections != null && sections.size() > 0){
+                for (EduSection section : sections) {
+                    //进行小节的删除
+                    String videoSourceId = section.getVideoSourceId();
+                    String sectionId = section.getId();
+                    eduSectionMapper.deleteById(sectionId);
+                    if(StringUtils.isNotBlank(videoSourceId)){
+                        //调用远程服务 进行小节中视频的删除
+                        eduVideoService.deleteVideo(videoSourceId);
+                    }
+                }
+            }
+        }
+        return true;
     }
 
 

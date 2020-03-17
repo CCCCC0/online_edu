@@ -34,7 +34,7 @@ public class EduSectionController {
 
     @DeleteMapping("deleteSection/{id}")
     public RetVal deleteSectionById(@PathVariable String id){
-        boolean flag = eduSectionService.removeById(id);
+        boolean flag = eduSectionService.deleteSectionById(id);
         if(flag){
             return RetVal.success();
         }

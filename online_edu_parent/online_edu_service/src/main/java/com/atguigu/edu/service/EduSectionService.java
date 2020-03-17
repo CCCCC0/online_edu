@@ -19,4 +19,6 @@ public interface EduSectionService extends IService<EduSection> {
     SectionVo getSectionVOById(String id);
 
     boolean updateEduSection(SectionVo sectionVo);
+
+    boolean deleteSectionById(String id);
 }

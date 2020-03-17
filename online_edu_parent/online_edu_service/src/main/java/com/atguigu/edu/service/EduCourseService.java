@@ -3,6 +3,7 @@ package com.atguigu.edu.service;
 import com.atguigu.edu.entity.EduCourse;
 import com.atguigu.edu.vo.request.QueryCourseCondition;
 import com.atguigu.edu.vo.response.EduCourseVO;
+import com.atguigu.edu.vo.response.PublishInfo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -29,4 +30,8 @@ public interface EduCourseService extends IService<EduCourse> {
     boolean updateCourse(EduCourseVO eduCourseVO);
 
     boolean deleteCourseById(String id);
+
+    PublishInfo selectPublishInfoById(String id);
+
+    boolean publishCourseById(String id);
 }

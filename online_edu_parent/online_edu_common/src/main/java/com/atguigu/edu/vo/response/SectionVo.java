@@ -22,4 +22,10 @@ public class SectionVo {
 
     @ApiModelProperty(value = "课程ID")
     private String courseId;
+
+    @ApiModelProperty(value = "视频资源")
+    private String videoSourceId;
+
+    @ApiModelProperty(value = "冗余字段")
+    private String videoOriginalName;
 }

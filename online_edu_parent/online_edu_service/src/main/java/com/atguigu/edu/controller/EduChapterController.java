@@ -57,7 +57,7 @@ public class EduChapterController {
 
     @DeleteMapping("deleteChapter/{id}")
     public RetVal updateChapter(@PathVariable String id){
-        boolean flag = chapterService.removeById(id);
+        boolean flag = chapterService.deleteChapterById(id);
         if(flag){
             return RetVal.success();
         }

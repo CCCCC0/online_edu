@@ -5,6 +5,7 @@ import com.atguigu.edu.entity.EduCourse;
 import com.atguigu.edu.service.EduCourseService;
 import com.atguigu.edu.vo.request.QueryCourseCondition;
 import com.atguigu.edu.vo.response.EduCourseVO;
+import com.atguigu.edu.vo.response.PublishInfo;
 import com.atguigu.edu.vo.response.RetVal;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +74,21 @@ public class EduCourseController {
     @DeleteMapping("delete/{id}")
     public RetVal deleteCourseById(@PathVariable String id){
         boolean flag = eduCourseService.deleteCourseById(id);
+        if(flag){
+            return RetVal.success();
+        }
+        return RetVal.error();
+    }
+
+    @GetMapping("getPublishInfo/{id}")
+    public RetVal getPublishInfoById(@PathVariable String id){
+        PublishInfo publishInfo = eduCourseService.selectPublishInfoById(id);
+        return RetVal.success().data("publishInfo",publishInfo);
+    }
+
+    @GetMapping("publishCourse/{id}")
+    public RetVal publishCourse(@PathVariable String id){
+        boolean flag = eduCourseService.publishCourseById(id);
         if(flag){
             return RetVal.success();
         }

@@ -1,12 +1,16 @@
 package com.atguigu.edu.service.impl;
 
+import com.atguigu.edu.entity.EduChapter;
 import com.atguigu.edu.entity.EduCourse;
 import com.atguigu.edu.entity.EduCourseDescription;
+import com.atguigu.edu.mapper.EduChapterMapper;
 import com.atguigu.edu.mapper.EduCourseDescriptionMapper;
 import com.atguigu.edu.mapper.EduCourseMapper;
+import com.atguigu.edu.service.EduChapterService;
 import com.atguigu.edu.service.EduCourseService;
 import com.atguigu.edu.vo.request.QueryCourseCondition;
 import com.atguigu.edu.vo.response.EduCourseVO;
+import com.atguigu.edu.vo.response.PublishInfo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -34,6 +38,12 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
 
     @Autowired
     private EduCourseDescriptionMapper eduCourseDescriptionMapper;
+
+    @Autowired
+    private EduChapterMapper eduChapterMapper;
+
+    @Autowired
+    private EduChapterService eduChapterService;
 
     @Override
     public List<EduCourseVO> getCourseList() {
@@ -134,10 +144,42 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     @Override
     public boolean deleteCourseById(String id) {
         if(StringUtils.isNotBlank(id)){
-             //不做判断
-             eduCourseMapper.deleteById(id);
-             eduCourseDescriptionMapper.deleteById(id);
+             //进行课程删除时 - 需删除课程下 所有章节 章节下所有小节  小节中所有的视频
+            eduCourseMapper.deleteById(id);
+            eduCourseDescriptionMapper.deleteById(id);
+            QueryWrapper<EduChapter> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("course_id",id);
+            List<EduChapter> chapterList = eduChapterMapper.selectList(queryWrapper);
+            if(chapterList != null && chapterList.size() > 0){
+                for (EduChapter eduChapter : chapterList) {
+                    String chapterId = eduChapter.getId();
+                    eduChapterService.deleteChapterById(chapterId);
+                }
+            }
              return true;
+        }
+        return false;
+    }
+
+    @Override
+    public PublishInfo selectPublishInfoById(String id) {
+        if(StringUtils.isNotBlank(id)){
+            PublishInfo publishInfo = eduCourseMapper.selectPublishById(id);
+            return publishInfo;
+        }
+        return null;
+    }
+
+    @Override
+    public boolean publishCourseById(String id) {
+        if(StringUtils.isNotBlank(id)){
+            EduCourse eduCourse = new EduCourse();
+            eduCourse.setStatus("Normal");
+            eduCourse.setId(id);
+            int update = eduCourseMapper.updateById(eduCourse);
+            if(update > 0){
+                return true;
+            }
         }
         return false;
     }
