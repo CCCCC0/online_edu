@@ -10,7 +10,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
-import sun.java2d.loops.FillParallelogram;
 
 /**
  * <p>
@@ -65,5 +64,4 @@ public class EduTeacher implements Serializable {
     @ApiModelProperty(value = "更新时间")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH-mm-ss")
     private Date gmtModified;
-
 }

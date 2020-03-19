@@ -9,6 +9,8 @@ import com.atguigu.edu.mapper.EduCourseMapper;
 import com.atguigu.edu.service.EduChapterService;
 import com.atguigu.edu.service.EduCourseService;
 import com.atguigu.edu.vo.request.QueryCourseCondition;
+import com.atguigu.edu.vo.response.ChapterVo;
+import com.atguigu.edu.vo.response.CourseAndBrother;
 import com.atguigu.edu.vo.response.EduCourseVO;
 import com.atguigu.edu.vo.response.PublishInfo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -20,7 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -182,5 +186,37 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
             }
         }
         return false;
+    }
+
+    @Override
+    public Map<String, Object> selectCourseListByPage(long pageNum, long pageSize) {
+        Map<String, Object> map = new HashMap<>();
+        Page<EduCourse> coursePage = new Page<>(pageNum,pageSize);
+        eduCourseMapper.selectPage(coursePage,null);
+        List<EduCourse> records = coursePage.getRecords();
+        long size = coursePage.getSize();
+        boolean hasNext = coursePage.hasNext();
+        boolean hasPrevious = coursePage.hasPrevious();
+        long current = coursePage.getCurrent();
+        map.put("hasPrevious",hasPrevious);
+        map.put("currentPage",current);
+        map.put("hasNext",hasNext);
+        map.put("pages",size);
+        map.put("courseList",records);
+
+        return map;
+    }
+
+    @Override
+    public Map<String, Object> selectCourseAndBrotherById(String courseId) {
+        Map<String,Object> map = new HashMap<>();
+        if(StringUtils.isNotBlank(courseId)) {
+            CourseAndBrother courseAndBrother = eduCourseMapper.selectCourseAndBrotherByCourseId(courseId);
+            List<ChapterVo> chapterVos = eduChapterService.getAllChapterByCourseId(courseId);
+            map.put("brotherInfo",courseAndBrother);
+            map.put("chapterList",chapterVos);
+        }
+        return map;
+
     }
 }

@@ -5,6 +5,8 @@ import com.atguigu.edu.vo.request.QueryTeacherCondition;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.Map;
+
 /**
  * <p>
  * 讲师 服务类
@@ -16,4 +18,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface EduTeacherService extends IService<EduTeacher> {
 
     void pageByCondition(Page<EduTeacher> eduTeacherPage, QueryTeacherCondition queryTeacherCondition);
+
+    Map<String, Object> selectTeacherByPage(long pageNum, long pageSize);
+
+    Map<String, Object> queryTeacherAndCourseById(String teacherId);
 }

@@ -19,4 +19,24 @@
         WHERE
             ec.id = #{courseId}
     </select>
+
+    <select id="selectCourseAndBrotherByCourseId" resultType="com.atguigu.edu.vo.response.CourseAndBrother">
+        SELECT
+            es.title,
+            es.price,
+            es.lesson_num,
+            es.cover,
+            es.buy_count,
+            es.view_count,
+            et.name,
+            et.avatar,
+            et.career,
+            esd.description
+        FROM
+            edu_teacher AS et
+        LEFT JOIN edu_course AS es ON et.id = es.teacher_id
+        LEFT JOIN edu_course_description AS esd ON es.id = esd.id
+        WHERE
+            es.id = #{courseId};
+    </select>
 </mapper>

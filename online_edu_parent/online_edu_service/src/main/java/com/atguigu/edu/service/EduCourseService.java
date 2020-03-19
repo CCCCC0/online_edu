@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -34,4 +35,8 @@ public interface EduCourseService extends IService<EduCourse> {
     PublishInfo selectPublishInfoById(String id);
 
     boolean publishCourseById(String id);
+
+    Map<String, Object> selectCourseListByPage(long pageNum, long pageSize);
+
+    Map<String, Object> selectCourseAndBrotherById(String courseId);
 }
