@@ -26,4 +26,10 @@ public class AliVideoController {
         return RetVal.success();
     }
 
+    @GetMapping("getAuthPlayer/{videoId}")
+    public RetVal getAuthPlayerByVideoId(@PathVariable String videoId){
+        String playerCode = videoService.getPlayerAuthById(videoId);
+        return RetVal.success().data("playerCode",playerCode);
+    }
+
 }

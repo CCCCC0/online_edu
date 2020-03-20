@@ -14,4 +14,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface MemberCenterService extends IService<MemberCenter> {
 
     Integer selectRegisterUserInDay(String day);
+
+    MemberCenter selectMemberByOpenId(String open_id);
 }

@@ -41,7 +41,7 @@ public class MyUtils {
         GetVideoPlayAuthResponse response = new GetVideoPlayAuthResponse();
         String playAuth = "";
         try {
-            response = acsClient  .getAcsResponse(request);
+            response = acsClient.getAcsResponse(request);
             //播放凭证
             playAuth = response.getPlayAuth();
         } catch (Exception e) {

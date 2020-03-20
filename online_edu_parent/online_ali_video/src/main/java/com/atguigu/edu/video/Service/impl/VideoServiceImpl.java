@@ -39,4 +39,20 @@ public class VideoServiceImpl implements VideoService {
             }
         }
     }
+
+    @Override
+    public String getPlayerAuthById(String videoId) {
+        String authCode = "";
+        if(StringUtils.isNotBlank(videoId)){
+            try {
+                authCode = MyUtils.getVideoPlayAuth(videoId);
+                if(StringUtils.isNotBlank(authCode)){
+                    return authCode;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return authCode;
+    }
 }

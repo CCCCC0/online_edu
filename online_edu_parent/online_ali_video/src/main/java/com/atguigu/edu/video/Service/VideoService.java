@@ -7,4 +7,6 @@ public interface VideoService {
     String uploadVideo(MultipartFile multipartFile);
 
     void deleteVideoById(String id);
+
+    String getPlayerAuthById(String videoId);
 }
